@@ -4,7 +4,8 @@ import Home from './views/home';
 import Login from './views/login'
 import Register from './views/register'
 import NotFound from './views/not-found';
-import Header from './components/header'
+import Header from './components/header';
+import Footer from './components/footer'
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import logo from './logo.svg';
 import './style/style.css'
@@ -25,12 +26,9 @@ class App extends Component {
               <Route path="/register" exact component={Register} />
               <Route component={NotFound} />
             </Switch>
-            <div id="footer">
-              Copyright &copy; simplestyle_1 | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.html5webtemplates.co.uk">Website templates</a>
-            </div>
-
           </Fragment>
         </Router>
+        <Footer />
       </div>
     );
   }
