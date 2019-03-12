@@ -8,32 +8,14 @@ class Home extends Component {
       <div id="main">
       <div id="content_header"></div>
       <div id="site_content">
-        <div className="sidebar">
-          {/* <!-- insert your sidebar items here --> */}
-          <h3>Latest News</h3>
-          <h4>New Website Launched</h4>
-          <h5>January 1st, 2010</h5>
-          <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-          <p></p>
-          <h4>New Website Launched</h4>
-          <h5>January 1st, 2010</h5>
-          <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-          <h3>Useful Links</h3>
-          <ul>
-            <li><a href="#">link 1</a></li>
-            <li><a href="#">link 2</a></li>
-            <li><a href="#">link 3</a></li>
-            <li><a href="#">link 4</a></li>
-          </ul>
-        </div>
         <div id="content">
           {/* <!-- insert the page content here --> */}
-          <h1>Welcome to the simplestyle_1 template</h1>
-          <p>This standards compliant, simple, fixed width website template is released as an 'open source' design (under a <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 Licence</a>), which means that you are free to download and use it for anything you want (including modifying and amending it). All I ask is that you leave the 'design from HTML5webtemplates.co.uk' link in the footer of the template, but other than that...</p>
+          <h1>Order your Mysterybox now!</h1>
+          <p>The Mysterybox is our way of providing you with the products you need but don't know you want. Get a bunch of items that won't be known to you until you open the box - and that's the charm of it! No, we won't tell what we've prepared for you, but we can give you a hint - it will be worth it!</p>
           <p>This template is written entirely in <strong>HTML5</strong> and <strong>CSS</strong>, and can be validated using the links in the footer.</p>
-          <p>You can view more free HTML5 web templates <a href="http://www.html5webtemplates.co.uk">here</a>.</p>
-          <p>This template is a fully functional 5 page website, with an <a href="examples.html">examples</a> page that gives examples of all the styles available with this design.</p>
-          <h2>Browser Compatibility</h2>
+          <p>You can view more free HTML5 web templates.</p>
+          <p>This template is a fully functional 5 page website, with an page that gives examples of all the styles available with this design.</p>
+          {/* <h2>Browser Compatibility</h2>
           <p>This template has been tested in the following browsers:</p>
           <ul>
             <li>Internet Explorer 8</li>
@@ -41,7 +23,7 @@ class Home extends Component {
             <li>FireFox 3.5</li>
             <li>Google Chrome 6</li>
             <li>Safari 4</li>
-          </ul>
+          </ul> */}
         </div>
       </div>
   

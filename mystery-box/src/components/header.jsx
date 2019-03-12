@@ -16,8 +16,8 @@ const Header = () => {
             <li className="selected"><a href="/">Home</a></li>
             <li><a href="/order">Order</a></li>
             <li><a href="/orders">List of orders</a></li>
-            <li><a href="another_page.html">Login</a></li>
-            <li><a href="contact.html">Register</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
           </ul>
         </div>
         </div>
