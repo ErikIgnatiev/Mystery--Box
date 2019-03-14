@@ -37,7 +37,8 @@ class Login extends Component {
                 const result = await Login.service.login(credentials);
 
                 if (!result.success) {
-                    const errors = Object.values(result.errors).join(' ');
+                    // const errors = Object.values(result.message).join(' ');
+                    const errors = result.message;
                     throw new Error(errors);
                 }
 
@@ -124,45 +125,3 @@ const LoginWithContext = (props) => {
 }
 
 export default LoginWithContext;
-
-
-//-------------------------
-//BELOW GOES ON FIRST FORMTAG
-//-------------------------
-// onSubmit={() => {
-//     this.props.loginUser({
-//         username: document.getElementById('usernameLogin').value,
-//         password: document.getElementById('passwordLogin').value
-//     })
-// }} action="/"
-
-
-
-//below is the original login form
-
-/* <div id="site_content">
-{
-    error.length
-        ? <div>Something went wrong: {error}</div>
-        : null
-}
-<div className="Login">         <h1>Login</h1>
-    <form onSubmit={this.handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-            type="text"
-            name="email"
-            id="email"
-            value={email}
-            onChange={this.handleChange} />
-        <label htmlFor="password">Password</label>
-        <input
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={this.handleChange} />
-        <input type="submit" value="Login" />
-    </form>
-</div>
-</div> */

@@ -8,11 +8,13 @@ import Logout from './views/logout';
 import HeaderWithContext from './components/header';
 import Footer from './components/footer';
 import Orders from './views/orders';
+import Completed from './views/completed';
 import { UserProvider, defaultUserState } from './components/contexts/user-context';
 
 // import logo from './logo.svg';
 import './style/style.css';
 import AuthorizedRoute from './components/authorized-route';
+import NewOrder from './views/new-order';
 
 class App extends Component {
   constructor(props) {
@@ -111,7 +113,10 @@ class App extends Component {
               <Route path="/login" component={LoginWithContext} />
               <Route path="/register" component={RegisterWithContext} />
               <AuthorizedRoute path="/orders" component={Orders} allowedRoles={[ 'admin' ]} />
+              <AuthorizedRoute path="/order" component={NewOrder} />
               <AuthorizedRoute path="/logout" component={Logout} />
+              <AuthorizedRoute path="/completed" component={Completed} />
+
               <Route component={NotFound} />
             </Switch>
             <Footer />

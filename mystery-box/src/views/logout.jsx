@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { UserConsumer, defaultUserState } from '../components/contexts/user-context';
 
 class Logout extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -12,9 +13,18 @@ class Logout extends React.Component {
     }
 
     render() {
-        return <Redirect to="/" />
+        return <Redirect to="/"/>
     }
 }
+
+// const Logout2 = (props) => {
+//     const { updateUser } = props;
+//     window.localStorage.removeItem('user');
+//     window.localStorage.removeItem('auth_token');
+//     updateUser(defaultUserState);
+
+//     return <Redirect to="/" />
+// }
 
 const LogoutWithContext = (props) => {
     return (
@@ -28,4 +38,4 @@ const LogoutWithContext = (props) => {
     );
 }
 
-export default LogoutWithContext
+export default LogoutWithContext;

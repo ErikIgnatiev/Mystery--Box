@@ -347,3 +347,53 @@ table tr td
 .Register input {
   padding: 10px;
 }
+
+.form-wrapper {
+    padding: 1em 0 3em 0;
+    width: 60%;
+    margin: 0 auto;       
+    text-align: center;
+}
+
+.form-wrapper form{
+    width: 40%;
+    margin: 0 auto;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.form-group label{    
+    padding-right: 1em;
+    text-align: left;
+}
+
+.form-wrapper input{
+   padding: 10px 5px;
+   outline: none;
+   border-radius: 0.5em;
+   border: 1px solid rgb(88, 182, 92);   
+   
+}
+
+.form-wrapper input[type="submit"] {
+    padding: 10px 20px;
+    margin: 20px;   
+    background-color: rgb(88, 182, 92);
+    color: white;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid rgb(88, 182, 92);
+}
+
+.form-wrapper input[type="submit"]:hover {
+    background-color: white;
+    color: rgb(88, 182, 92);
+    border: 2px solid rgb(88, 182, 92);
+    font-size: 18px;
+    font-weight: bold;
+}
