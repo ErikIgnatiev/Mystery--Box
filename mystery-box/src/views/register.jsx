@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import RegisterService from '../services/register-service';
-import { UserConsumer, defaultUserState } from '../components/contexts/user-context';
+import AuthenticationService from '../services/auth-service'
+import { UserConsumer } from '../components/contexts/user-context';
 
 class Register extends Component {
 
   static service = new RegisterService();
+  static login = new AuthenticationService();
 
   state = {
     email: '',
     password: '',
     error: '',
-    // isLoggedin: !!window.localStorage.getItem('auth_token'),
   };
 
   handleChange = ({ target }) => {
@@ -23,45 +24,48 @@ class Register extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { username, email, password } = this.state;
-    // const { updateUser } = this.props;
+    const { updateUser } = this.props;
 
     const credentials = {
-        email,
-        password,
-        username
+      email,
+      password,
+      username
     }
 
     this.setState({
-        error: ''
+      error: ''
     }, async () => {
 
-        try {
-            const result = await Register.service.login(credentials);
+      try {
+        const result = await Register.service.login(credentials);
+        console.log(result);
 
-            if (!result.success) {
-                const errors = Object.values(result.errors).join(' ');
-                throw new Error(errors);
-            }
-
-            window.localStorage.setItem('auth_token', result.token);
-
-            // console.log(result);
-
-            // updateUser({
-            //     isLoggedin: true,
-            //     ...result.user
-            // });
-
-            // this.setState({
-            //     isLoggedin: true
-            // })
-        } catch (error) {
-            this.setState({
-                error: error.message,
-            })
+        if (!result.success) {
+          const errors = Object.values(result.errors).join(' ');
+          throw new Error(errors);
         }
+
+        const autoLogin = await Register.login.login(credentials);
+        console.log(autoLogin);
+
+        window.localStorage.setItem('auth_token', autoLogin.token);
+
+        if (autoLogin.success) {
+
+          updateUser({
+            isLoggedin: true,
+            updateUser,
+            ...autoLogin.user
+        });
+        }
+
+      } catch (error) {
+        this.setState({
+          error: error.message,
+        })
+      }
     })
-}
+  }
 
   render() {
     const { username, email, password, confirmPassword, error } = this.state;
@@ -123,26 +127,20 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const RegisterWithContext = (props) => {
+  return (
+    <UserConsumer>
+      {
+        ({ isLoggedin, updateUser }) => (
+          <Register
+            {...props}
+            isLoggedin={isLoggedin}
+            updateUser={updateUser}
+          />
+        )
+      }
+    </UserConsumer>
+  )
+}
 
-//previous version
-//-------------------------
-/* <div id="site_content">
-<div className="Register">
-<h1>Register</h1>
-<form onSubmit={() => {
-this.props.registerUser({
- username: document.getElementById('username').value,
- email: document.getElementById('email').value,
- password: document.getElementById('password').value,
-})
-}} action="/">
-<label>Username</label>
-<input type="text" id="username"/>
-<label>Email</label>
-<input type="text" id="email"/>
-<label>Password</label>
-<input type="password" id="password"/>
-<input type="submit" value="Register"/>
-</form></div></div>
-) */
+export default RegisterWithContext;

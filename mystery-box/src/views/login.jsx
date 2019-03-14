@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import AuthenticationService from '../services/auth-service';
-import { UserConsumer, defaultUserState } from '../components/contexts/user-context';
+import { UserConsumer } from '../components/contexts/user-context';
 
 class Login extends Component {
     static service = new AuthenticationService();

@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { NavLink, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './views/home';
 import LoginWithContext from './views/login'
-import Register from './views/register'
+import RegisterWithContext from './views/register'
 import NotFound from './views/not-found';
 import Logout from './views/logout';
 import HeaderWithContext from './components/header';
@@ -109,7 +109,7 @@ class App extends Component {
               {/* <Route path="/create" exact component={Order} />
             <Route path="/orders" exact component={Orders} /> */}
               <Route path="/login" component={LoginWithContext} />
-              <Route path="/register" component={Register} />
+              <Route path="/register" component={RegisterWithContext} />
               <AuthorizedRoute path="/orders" component={Orders} allowedRoles={[ 'admin' ]} />
               <AuthorizedRoute path="/logout" component={Logout} />
               <Route component={NotFound} />
