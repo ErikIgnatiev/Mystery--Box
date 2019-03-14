@@ -4,12 +4,15 @@ import Home from './views/home';
 import LoginWithContext from './views/login'
 import Register from './views/register'
 import NotFound from './views/not-found';
-import Header from './components/header';
+import Logout from './views/logout';
+import HeaderWithContext from './components/header';
 import Footer from './components/footer';
+import Orders from './views/orders';
 import { UserProvider, defaultUserState } from './components/contexts/user-context';
 
 // import logo from './logo.svg';
 import './style/style.css';
+import AuthorizedRoute from './components/authorized-route';
 
 class App extends Component {
   constructor(props) {
@@ -95,39 +98,20 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-
+    console.log(user);
     return (
-      <div >
-        <Router>
-          <UserProvider value={ user }>
-            <div id="header">
-              <div id="logo">
-                <div id="logo_text">
-                  {/* <!-- class="logo_colour", allows you to change the colour of the text --> */}
-                  <h1><a href="index.html">Mystery<span className="logo_colour">box</span></a></h1>
-                  <h2>Your monthly bundle full of surprises.</h2>
-                </div>
-              </div>
-              <div id="menubar">
-                <ul id="menu">
-                  {/* <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on --> */}
-                  <li className="selected"><NavLink className="test" to="/">Home</NavLink></li>
-                  <li><NavLink to="/order">Order</NavLink></li>
-                  <li><NavLink to="/orders">List of orders</NavLink></li>
-                  {/* <li><a onClick={this.logout.bind(this)} href="#">Logout </a></li> */}
-                  <li><NavLink to="/login">Login</NavLink></li>
-                  <li><NavLink to="/register">Register</NavLink></li>
-                </ul>
-              </div>
-            </div>
-
-
+      <div>
+      <Router>
+        <UserProvider value={ user }>
+<HeaderWithContext />
             <Switch>
               <Route path="/" exact component={Home} />
               {/* <Route path="/create" exact component={Order} />
             <Route path="/orders" exact component={Orders} /> */}
               <Route path="/login" component={LoginWithContext} />
-              <Route path="/register" component={() => <Register registerUser={this.registerUser.bind(this)} />} />
+              <Route path="/register" component={Register} />
+              <AuthorizedRoute path="/orders" component={Orders} allowedRoles={[ 'admin' ]} />
+              <AuthorizedRoute path="/logout" component={Logout} />
               <Route component={NotFound} />
             </Switch>
             <Footer />

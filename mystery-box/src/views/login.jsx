@@ -47,6 +47,7 @@ class Login extends Component {
 
                 updateUser({
                     isLoggedin: true,
+                    updateUser,
                     ...result.user
                 });
 
