@@ -10,7 +10,8 @@ router.post('/submit', authCheck, (req, res) => {
     telephone,
     address,
     comments,
-    status } = req.body
+    status } = req.body;
+  //const product = req.body;
   let orderObj = {
     creator: req.user._id,
     email,
@@ -51,7 +52,7 @@ router.get('/user', authCheck, (req, res) => {
 router.get('/pending', authCheck, (req, res) => {
   if (req.user.roles.indexOf('Admin') > -1) {
     Order
-      .find({status: 'Pending'})
+      .find()
       .then(orders => {
         res.status(200).json(orders)
       })
@@ -63,12 +64,21 @@ router.get('/pending', authCheck, (req, res) => {
   }
 })
 
-router.get('/all', (req, res) => {
-  Order
-    .find()
-    .then(books => {
-      res.status(200).json(books)
+//{status: 'Pending'}
+
+router.get('/all', authCheck, (req, res) => {
+  if (req.user.roles.indexOf('Admin') > -1) {
+    Order
+      .find()
+      .then(orders => {
+        res.status(200).json(orders)
+      })
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: 'Invalid credentials!'
     })
+  }
 })
 
 router.post('/approve/:id', authCheck, (req, res) => {

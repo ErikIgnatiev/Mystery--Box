@@ -49,7 +49,7 @@ class Register extends Component {
           }
 
           const autoLogin = await Register.login.login(credentials);
-          console.log(autoLogin);
+          //console.log(autoLogin);
 
           window.localStorage.setItem('auth_token', autoLogin.token);
 

@@ -33,18 +33,34 @@ class PendingOrders extends Component {
             )
         }
 
+        const style = {
+            width:'100%'
+        };
+
         return (
+
             <Fragment>
-                <h2>Top Rated</h2>
+                <h2>Orders List</h2>
                 <div className="row">
-                    <div className="card-deck space-top">
+                <table style={style}>
+                <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Telephone</th>
+                            <th>Comments</th>
+                            <th>Approval</th>
+                        </tr>
                         {
                             orders.map(order => (
                                 <OrdersTable key={order.id} {...order} />
                             ))
                         }
+                        </tbody>
+                        </table>
                     </div>
-                </div>
+
             </Fragment>
         )
     }
