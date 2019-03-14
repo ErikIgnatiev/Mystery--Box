@@ -1,24 +1,74 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import OrderService from '../services/order-service';
-import { UserConsumer } from '../components/contexts/user-context';
+import FormErrors from '../components/form-errors';
+
 
 class NewOrder extends Component {
-    static service = new OrderService();
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            address: '',
+            telephone: '',
+            comments: '',
+            error: '',
+            formErrors: { email: '', address: '', telephone: '' },
+            emailValid: false,
+            addressValid: false,
+            telephoneValid: false,
+            formValid: false,
+        }
+    }
 
-    state = {
-        email: '',
-        address: '',
-        telephone: '',
-        comments: '',
-        error: '',
-    };
+    static service = new OrderService();
 
     handleChange = ({ target }) => {
         this.setState({
             [target.name]: target.value
-        })
+        }, () => { this.validateField(target.name, target.value) })
     }
+
+    //------------------------------ VALIDATOR --------------------------
+
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.formErrors;
+        let emailValid = this.state.emailValid;
+        let telephoneValid = this.state.telephoneValid;
+        let addressValid = this.state.addressValid;
+
+        switch (fieldName) {
+            case 'email':
+                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+                break;
+            case 'telephone':
+                telephoneValid = value.length > 8;
+                fieldValidationErrors.telephone = telephoneValid ? '' : ' is incomplete';
+                break;
+            case 'address':
+                addressValid = value.length > 0;
+                fieldValidationErrors.address = addressValid ? '' : ' must be provided';
+                break;
+            default:
+                break;
+        }
+        this.setState({
+            formErrors: fieldValidationErrors,
+            emailValid: emailValid,
+            telephoneValid: telephoneValid,
+            addressValid: addressValid,
+        }, this.validateForm);
+    }
+
+    validateForm() {
+        this.setState({ formValid: this.state.emailValid && this.state.telephoneValid && this.state.addressValid});
+    }
+
+
+    //===================== /VALIDATOR ==========================
+
+
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -71,9 +121,7 @@ class NewOrder extends Component {
     }
 
     render() {
-        const { email, telephone, address, error, comments, completed } = this.state;
-        const { isLoggedin } = this.props;
-
+        const { email, telephone, address, comments, completed } = this.state;
 
         if (completed) {
             return (
@@ -83,11 +131,9 @@ class NewOrder extends Component {
 
         return (
             <div className="form-wrapper">
-                {
-                    error.length
-                        ? <div>Something went wrong: {error}</div>
-                        : null
-                }
+                <div className="errors">
+                    <FormErrors formErrors={this.state.formErrors} />
+                </div>
                 <h1>New Order</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
@@ -104,7 +150,7 @@ class NewOrder extends Component {
                         <input type="telephone"
                             name="telephone"
                             id="telephone"
-                            placeholder="Enter password"
+                            placeholder="Enter your telephone"
                             value={telephone}
                             onChange={this.handleChange} />
                     </div>
@@ -113,7 +159,7 @@ class NewOrder extends Component {
                         <input type="address"
                             name="address"
                             id="address"
-                            placeholder="Enter password"
+                            placeholder="Enter your address"
                             value={address}
                             onChange={this.handleChange} />
                     </div>
@@ -127,7 +173,8 @@ class NewOrder extends Component {
                             onChange={this.handleChange} />
                     </div>
 
-                    <button type="submit">Order away!</button>
+                    <button type="submit" className="btn btn-primary"
+                        disabled={!this.state.formValid}>Order away!</button>
                 </form>
             </div>
         )

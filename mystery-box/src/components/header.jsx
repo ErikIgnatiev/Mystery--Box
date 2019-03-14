@@ -20,7 +20,7 @@ const Header = ({ isLoggedin, username, roles }) => {
       <div id="menubar">
         <ul id="menu">
           {/* <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on --> */}
-          <li className="selected"><NavLink className="test" to="/">Home</NavLink></li>
+          <li><NavLink className="test" to="/">Home</NavLink></li>
           {
             isLoggedin
               ? <React.Fragment><li><NavLink to="/order">Order</NavLink></li>

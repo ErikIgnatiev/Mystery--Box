@@ -78,13 +78,13 @@ class Login extends Component {
             <div className="form-wrapper">
                 {
                     error.length
-                        ? <div>Something went wrong: {error}</div>
+                        ? <div className="errors"><p>Something went wrong: {error}</p></div>
                         : null
                 }
                 <h1>Login</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="email">E-mail</label>
+                        {/* <label htmlFor="email">E-mail</label> */}
                         <input type="text"
                             name="email"
                             id="email"
@@ -93,7 +93,7 @@ class Login extends Component {
                             onChange={this.handleChange} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">Password</label>
+                        {/* <label htmlFor="password">Password</label> */}
                         <input type="password"
                             name="password"
                             id="password"
@@ -101,7 +101,7 @@ class Login extends Component {
                             value={password}
                             onChange={this.handleChange} />
                     </div>
-                    <button type="submit">Login</button>
+                    <button type="submit" className="btn btn-primary">Login</button>
                 </form>
             </div>
         )

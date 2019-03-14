@@ -5,10 +5,20 @@ const Order = require('../models/Order')
 const router = new express.Router()
 
 router.post('/submit', authCheck, (req, res) => {
-  const products = req.body
+  const { email,
+    date,
+    telephone,
+    address,
+    comments,
+    status } = req.body
   let orderObj = {
     creator: req.user._id,
-    products
+    email,
+    date,
+    telephone,
+    address,
+    comments,
+    status
   }
 
   Order
@@ -51,6 +61,14 @@ router.get('/pending', authCheck, (req, res) => {
       message: 'Invalid credentials!'
     })
   }
+})
+
+router.get('/all', (req, res) => {
+  Order
+    .find()
+    .then(books => {
+      res.status(200).json(books)
+    })
 })
 
 router.post('/approve/:id', authCheck, (req, res) => {
