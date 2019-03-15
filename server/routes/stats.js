@@ -1,5 +1,5 @@
 const express = require('express')
-const Book = require('../models/Book')
+const Box = require('../models/Box')
 const User = require('../models/User')
 
 const router = new express.Router()
@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   User
     .count({})
     .then(users => {
-      Book
+      Box
         .count({})
         .then(products => {
           res.status(200).json({

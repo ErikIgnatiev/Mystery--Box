@@ -1,10 +1,10 @@
 const express = require('express')
 const authCheck = require('../config/auth-check')
-const Book = require('../models/Book')
+const Box = require('../models/Box')
 
 const router = new express.Router()
 
-function validateBookCreateForm(payload) {
+function validateBoxCreateForm(payload) {
   const errors = {}
   let isFormValid = true
   let message = ''
@@ -13,7 +13,7 @@ function validateBookCreateForm(payload) {
 
   if (!payload || typeof payload.title !== 'string' || payload.title.length < 3) {
     isFormValid = false
-    errors.name = 'Book name must be at least 3 symbols.'
+    errors.name = 'Box name must be at least 3 symbols.'
   }
 
   if (!payload || typeof payload.description !== 'string' || payload.description.length < 10 || payload.description.length > 200) {
@@ -42,51 +42,80 @@ function validateBookCreateForm(payload) {
   }
 }
 
-router.post('/create', authCheck, (req, res) => {
-  const bookObj = req.body
-  if (req.user.roles.indexOf('Admin') > -1) {
-    const validationResult = validateBookCreateForm(bookObj)
-    if (!validationResult.success) {
+// router.post('/box', authCheck, (req, res) => {
+//   const id = req.body.id;
+//   if (req.user.roles.indexOf('Admin') > -1) {
+//     Box
+//     .findById(id)
+//     .then(box => {
+//       if (!box) {
+//         const message = 'Box not found.'
+//         return res.status(200).json({
+//           success: false,
+//           message: message
+//         })
+//       }
+
+//       box.text = req.params.id
+//       box
+//         .save()
+//         .then(() => {
+//           res.status(200).json({
+//             success: true,
+//             message: 'box updated successfully.'
+//           })
+//         })
+//       })
+//       .catch((err) => {
+//         console.log(err)
+//         let message = 'Something went wrong :( Check the form for errors.'
+//         if (err.code === 11000) {
+//           message = 'Bo with the given name already exists.'
+//         }
+//         return res.status(200).json({
+//           success: false,
+//           message: message
+//         })
+//       })
+//   } else {
+//     return res.status(200).json({
+//       success: false,
+//       message: 'Invalid credentials!'
+//     })
+//   }
+// })
+
+router.post('/box', authCheck, (req, res) => {
+  const { text } = req.body;
+  //const product = req.body;
+  let orderObj = {
+    text
+  }
+
+  Box
+    .create(orderObj)
+    .then((createdOrder) => {
+      res.status(200).json({
+        success: true,
+        message: 'Box updated successfully.',
+        data: createdOrder
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      const message = 'Something went wrong :('
       return res.status(200).json({
         success: false,
-        message: validationResult.message,
-        errors: validationResult.errors
+        message: message
       })
-    }
-
-    Book
-      .create(bookObj)
-      .then((createdBook) => {
-        res.status(200).json({
-          success: true,
-          message: 'Book added successfully.',
-          data: createdBook
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-        let message = 'Something went wrong :( Check the form for errors.'
-        if (err.code === 11000) {
-          message = 'Book with the given name already exists.'
-        }
-        return res.status(200).json({
-          success: false,
-          message: message
-        })
-      })
-  } else {
-    return res.status(200).json({
-      success: false,
-      message: 'Invalid credentials!'
     })
-  }
 })
 
 router.post('/edit/:id', authCheck, (req, res) => {
   if (req.user.roles.indexOf('Admin') > -1) {
-    const bookId = req.params.id
-    const bookObj = req.body
-    const validationResult = validateBookCreateForm(bookObj)
+    const BoxId = req.params.id
+    const BoxObj = req.body
+    const validationResult = validateBoxCreateForm(BoxObj)
     if (!validationResult.success) {
       return res.status(200).json({
         success: false,
@@ -95,30 +124,30 @@ router.post('/edit/:id', authCheck, (req, res) => {
       })
     }
 
-    Book
-      .findById(bookId)
-      .then(existingBook => {
-        existingBook.title = bookObj.title
-        existingBook.author = bookObj.author
-        existingBook.genres = bookObj.genres
-        existingBook.description = bookObj.description
-        existingBook.price = bookObj.price
-        existingBook.image = bookObj.image
+    Box
+      .findById(BoxId)
+      .then(existingBox => {
+        existingBox.title = BoxObj.title
+        existingBox.author = BoxObj.author
+        existingBox.genres = BoxObj.genres
+        existingBox.description = BoxObj.description
+        existingBox.price = BoxObj.price
+        existingBox.image = BoxObj.image
 
-        existingBook
+        existingBox
           .save()
-          .then(editedBook => {
+          .then(editedBox => {
             res.status(200).json({
               success: true,
-              message: 'Book edited successfully.',
-              data: editedBook
+              message: 'Box edited successfully.',
+              data: editedBox
             })
           })
           .catch((err) => {
             console.log(err)
             let message = 'Something went wrong :( Check the form for errors.'
             if (err.code === 11000) {
-              message = 'Book with the given name already exists.'
+              message = 'Box with the given name already exists.'
             }
             return res.status(200).json({
               success: false,
@@ -142,12 +171,24 @@ router.post('/edit/:id', authCheck, (req, res) => {
   }
 })
 
-router.get('/all', (req, res) => {
-  Book
+router.get('/box', (req, res) => {
+  Box
     .find()
-    .then(books => {
-      res.status(200).json(books)
+    .then(box => {
+      res.status(200).json(box)
     })
+    .catch((err) => {
+      console.log(err)
+      let message = 'Something went wrong :( Check the form for errors.'
+      // if (err.code === 11000) {
+      //   message = 'Bo with the given name already exists.'
+      // }
+      return res.status(200).json({
+        success: false,
+        message: message
+      })
+    })
+
 })
 
 router.post('/review/:id', authCheck, (req, res) => {
@@ -163,10 +204,10 @@ router.post('/review/:id', authCheck, (req, res) => {
     })
   }
 
-  Book
+  Box
     .findById(id)
-    .then(book => {
-      if (!book) {
+    .then(Box => {
+      if (!Box) {
         return res.status(200).json({
           success: false,
           message: 'Product not found.'
@@ -178,16 +219,16 @@ router.post('/review/:id', authCheck, (req, res) => {
         createdBy: username
       }
 
-      let reviews = book.reviews
+      let reviews = Box.reviews
       reviews.push(reviewObj)
-      book.reviews = reviews
-      book
+      Box.reviews = reviews
+      Box
         .save()
-        .then((book) => {
+        .then((Box) => {
           res.status(200).json({
             success: true,
             message: 'Review added successfully.',
-            data: book
+            data: Box
           })
         })
         .catch((err) => {
@@ -212,10 +253,10 @@ router.post('/review/:id', authCheck, (req, res) => {
 router.post('/like/:id', authCheck, (req, res) => {
   const id = req.params.id
   const username = req.user.username
-  Book
+  Box
     .findById(id)
-    .then(book => {
-      if (!book) {
+    .then(Box => {
+      if (!Box) {
         const message = 'Product not found.'
         return res.status(200).json({
           success: false,
@@ -223,18 +264,18 @@ router.post('/like/:id', authCheck, (req, res) => {
         })
       }
 
-      let likes = book.likes
+      let likes = Box.likes
       if (!likes.includes(username)) {
         likes.push(username)
       }
-      book.likes = likes
-      book
+      Box.likes = likes
+      Box
         .save()
-        .then((book) => {
+        .then((Box) => {
           res.status(200).json({
             success: true,
-            message: 'Book liked successfully.',
-            data: book
+            message: 'Box liked successfully.',
+            data: Box
           })
         })
         .catch((err) => {
@@ -259,10 +300,10 @@ router.post('/like/:id', authCheck, (req, res) => {
 router.post('/unlike/:id', authCheck, (req, res) => {
   const id = req.params.id
   const username = req.user.username
-  Book
+  Box
     .findById(id)
-    .then(book => {
-      if (!book) {
+    .then(Box => {
+      if (!Box) {
         let message = 'Product not found.'
         return res.status(200).json({
           success: false,
@@ -270,20 +311,20 @@ router.post('/unlike/:id', authCheck, (req, res) => {
         })
       }
 
-      let likes = book.likes
+      let likes = Box.likes
       if (likes.includes(username)) {
         const index = likes.indexOf(username)
         likes.splice(index, 1)
       }
 
-      book.likes = likes
-      book
+      Box.likes = likes
+      Box
         .save()
-        .then((book) => {
+        .then((Box) => {
           res.status(200).json({
             success: true,
             message: 'Product unliked successfully.',
-            data: book
+            data: Box
           })
         })
         .catch((err) => {
@@ -308,15 +349,15 @@ router.post('/unlike/:id', authCheck, (req, res) => {
 router.delete('/delete/:id', authCheck, (req, res) => {
   const id = req.params.id
   if (req.user.roles.indexOf('Admin') > -1) {
-    Book
+    Box
       .findById(id)
-      .then((book) => {
-        book
+      .then((Box) => {
+        Box
           .remove()
           .then(() => {
             return res.status(200).json({
               success: true,
-              message: 'Book deleted successfully!'
+              message: 'Box deleted successfully!'
             })
           })
       })

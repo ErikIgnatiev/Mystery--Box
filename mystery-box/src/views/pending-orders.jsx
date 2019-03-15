@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import OrdersTable from './order-table';
+import OrdersTable from '../components/order-table';
 import OrdersService from '../services/admin-service';
 
 class PendingOrders extends Component {

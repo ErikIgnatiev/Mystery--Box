@@ -1,6 +1,7 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { UserConsumer } from './contexts/user-context';
+import NotFound from '../views/not-found'
 
 const AuthorizedRoute = ({ isLoggedin, allowedRoles = [], roles, ...otherProps }) => {
     const roleIsAllowed = (!allowedRoles.length) || (roles
@@ -9,7 +10,8 @@ const AuthorizedRoute = ({ isLoggedin, allowedRoles = [], roles, ...otherProps }
         );
     
     if (!isLoggedin || !roleIsAllowed) {
-        return <Redirect to="/login" />
+        // return <Redirect to="/login" />
+        return <NotFound />
     }
 
     return (

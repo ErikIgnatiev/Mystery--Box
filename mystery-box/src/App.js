@@ -13,7 +13,7 @@ import { UserProvider, defaultUserState } from './components/contexts/user-conte
 import './style/style.css';
 import AuthorizedRoute from './components/authorized-route';
 import NewOrder from './views/new-order';
-import PendingOrders from './components/pending-orders';
+import PendingOrders from './views/pending-orders';
 // import { ToastContainer, toast } from 'react-toastify';
 
 

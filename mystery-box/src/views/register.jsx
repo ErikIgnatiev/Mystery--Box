@@ -69,7 +69,9 @@ class Register extends Component {
         }
       })
     } else {
-      console.log('Password does not match!')
+      this.setState({
+        error: 'Password does not match!',
+      })
     }
   }
 

@@ -13,6 +13,7 @@ class Logout extends React.Component {
     }
 
     render() {
+        window.location.reload();
         return <Redirect to="/"/>
     }
 }
