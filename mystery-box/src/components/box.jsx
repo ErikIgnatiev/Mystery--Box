@@ -20,6 +20,9 @@ import postBoxService from '../services/box-update-service';
 // }
 
 class Box extends React.Component {
+    state = {
+        newText: ''
+    }
 
     static service = new postBoxService();
 
@@ -31,10 +34,14 @@ class Box extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const { text } = this.state;
+        const { newText } = this.state;
+        const { text } = this.props;
+        const { position } = 'first'
 
         const data = {
-            text
+            text,
+            newText,
+            position
         }
 
         this.setState({
@@ -64,7 +71,8 @@ class Box extends React.Component {
     }
 
     render() {
-        const { id, text, roles } = this.props;
+        const { _id, text, roles } = this.props;
+        const { newText } = this.state;
         const isAdmin = roles
             .map(role => role.toLowerCase())
             .some(role => ['admin'].includes(role))
@@ -76,11 +84,11 @@ class Box extends React.Component {
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             {/* <label htmlFor="email">E-mail</label> */}
-                            <input type="text"
-                                name="text"
+                            <textarea rows="5" cols="55" type="text"
+                                name="newText"
                                 id="text"
                                 placeholder={text}
-                                value={text}
+                                value={newText}
                                 onChange={this.handleChange} />
                             <button type="submit" className="btn btn-primary">Update</button>
                         </div>
@@ -91,7 +99,7 @@ class Box extends React.Component {
         } else {
             return (<div>
                 <p>{text}</p>
-                <p>{id}</p>
+                {/* <p>{_id}</p> */}
                 </div>
             )
         }

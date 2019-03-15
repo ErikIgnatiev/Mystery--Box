@@ -42,74 +42,80 @@ function validateBoxCreateForm(payload) {
   }
 }
 
-// router.post('/box', authCheck, (req, res) => {
-//   const id = req.body.id;
-//   if (req.user.roles.indexOf('Admin') > -1) {
-//     Box
-//     .findById(id)
-//     .then(box => {
-//       if (!box) {
-//         const message = 'Box not found.'
-//         return res.status(200).json({
-//           success: false,
-//           message: message
-//         })
-//       }
-
-//       box.text = req.params.id
-//       box
-//         .save()
-//         .then(() => {
-//           res.status(200).json({
-//             success: true,
-//             message: 'box updated successfully.'
-//           })
-//         })
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//         let message = 'Something went wrong :( Check the form for errors.'
-//         if (err.code === 11000) {
-//           message = 'Bo with the given name already exists.'
-//         }
-//         return res.status(200).json({
-//           success: false,
-//           message: message
-//         })
-//       })
-//   } else {
-//     return res.status(200).json({
-//       success: false,
-//       message: 'Invalid credentials!'
-//     })
-//   }
-// })
-
 router.post('/box', authCheck, (req, res) => {
-  const { text } = req.body;
-  //const product = req.body;
-  let orderObj = {
-    text
-  }
 
-  Box
-    .create(orderObj)
-    .then((createdOrder) => {
-      res.status(200).json({
-        success: true,
-        message: 'Box updated successfully.',
-        data: createdOrder
+  if (req.user.roles.indexOf('Admin') > -1) {
+    const { text, newText, position } = req.body;
+
+    Box
+    .findOne({position: position})
+    .then(box => {
+      if (!box) {
+        const message = 'Box not found.'
+        return res.status(200).json({
+          success: false,
+          message: message
+        })
+      }
+
+      box.text = newText
+      box
+        .save()
+        .then(() => {
+          res.status(200).json({
+            success: true,
+            message: 'Box updated successfully.'
+          })
+        })
       })
-    })
-    .catch((err) => {
-      console.log(err)
-      const message = 'Something went wrong :('
-      return res.status(200).json({
-        success: false,
-        message: message
+      .catch((err) => {
+        console.log(err)
+        let message = 'Something went wrong :( Check the form for errors.'
+        if (err.code === 11000) {
+          message = 'Bo with the given name already exists.'
+        }
+        return res.status(200).json({
+          success: false,
+          message: message
+        })
       })
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: 'Invalid credentials!'
     })
+  }
 })
+
+// router.post('/box', authCheck, (req, res) => {
+//   const { text, newText } = req.body;
+//   //const product = req.body;
+//   let orderObj = {
+//     text,
+//     newText
+//   }
+//   let textUpdate = {
+//     newText
+//   }
+
+//   Box
+//     .create(orderObj)
+//     .then((createdOrder) => {
+//       res.status(200).json({
+//         success: true,
+//         message: 'Box updated successfully.',
+//         data: createdOrder
+//       })
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//       const message = 'Something went wrong :('
+//       return res.status(200).json({
+//         success: false,
+//         message: message
+//       })
+//     })
+// })
 
 router.post('/edit/:id', authCheck, (req, res) => {
   if (req.user.roles.indexOf('Admin') > -1) {
