@@ -98,20 +98,6 @@ class NewOrder extends Component {
                         completed: true
                     })
                 }
-
-                // window.localStorage.setItem('auth_token', result.token);
-
-                // console.log(result);
-
-                // updateUser({
-                //     isLoggedin: true,
-                //     updateUser,
-                //     ...result.user
-                // });
-
-                // this.setState({
-                //     isLoggedin: true
-                // })
             } catch (error) {
                 this.setState({
                     error: error.message,
@@ -137,7 +123,7 @@ class NewOrder extends Component {
                 <h1>New Order</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="email">Your e-mail</label>
+                        <label htmlFor="email">Confirm your e-mail</label>
                         <input type="text"
                             name="email"
                             id="email"
@@ -180,21 +166,5 @@ class NewOrder extends Component {
         )
     }
 }
-
-// const LoginWithContext = (props) => {
-//     return (
-//         <UserConsumer>
-//             {
-//                 ({ isLoggedin, updateUser }) => (
-//                     <Login
-//                         {...props}
-//                         isLoggedin={isLoggedin}
-//                         updateUser={updateUser}
-//                     />
-//                 )
-//             }
-//         </UserConsumer>
-//     )
-// }
 
 export default NewOrder;

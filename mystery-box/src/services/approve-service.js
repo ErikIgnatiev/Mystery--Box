@@ -1,5 +1,6 @@
-const Approve = () => {
-    return (console.log('asdasd'))
+const Approve = (id) => {
+
+    return (console.log(id))
 }
 
 export default Approve;
