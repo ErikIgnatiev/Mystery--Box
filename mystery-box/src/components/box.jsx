@@ -2,23 +2,6 @@ import React from 'react';
 import { UserConsumer } from './contexts/user-context';
 import postBoxService from '../services/box-update-service';
 
-// const Box = ({ text, roles }) => {
-//     const isAdmin = roles
-//         .map(role => role.toLowerCase())
-//         .some(role => ['admin'].includes(role))
-//         ;
-
-//     if (isAdmin) {
-//         return (<p>Edit the box description</p>
-//         )
-
-//     } else {
-//         return (
-//             <p>{text}</p>
-//         )
-//     }
-// }
-
 class Box extends React.Component {
     state = {
         newText: ''
@@ -35,13 +18,12 @@ class Box extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         const { newText } = this.state;
-        const { text } = this.props;
-        const { position } = 'first'
+        const { text, _id } = this.props;
 
         const data = {
             text,
             newText,
-            position
+            _id
         }
 
         this.setState({
@@ -52,16 +34,9 @@ class Box extends React.Component {
                 const result = await Box.service.box(data);
 
                 if (!result.success) {
-                    // const errors = Object.values(result.message).join(' ');
                     const errors = result.message;
                     throw new Error(errors);
                 }
-
-                // console.log(result);
-
-                // this.setState({
-                //     isLoggedin: true
-                // })
             } catch (error) {
                 this.setState({
                     error: error.message,
@@ -71,7 +46,7 @@ class Box extends React.Component {
     }
 
     render() {
-        const { _id, text, roles } = this.props;
+        const { text, roles } = this.props;
         const { newText } = this.state;
         const isAdmin = roles
             .map(role => role.toLowerCase())

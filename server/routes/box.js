@@ -45,28 +45,45 @@ function validateBoxCreateForm(payload) {
 router.post('/box', authCheck, (req, res) => {
 
   if (req.user.roles.indexOf('Admin') > -1) {
-    const { text, newText, position } = req.body;
+    const { newText, _id } = req.body;
 
     Box
-    .findOne({position: position})
-    .then(box => {
-      if (!box) {
-        const message = 'Box not found.'
-        return res.status(200).json({
-          success: false,
-          message: message
-        })
-      }
+      .findById(_id)
+      .then(box => {
+        if (!box) {
+          const message = 'A new box was created!';
+          const { newText } = req.body;
+          const text = newText;
+          let orderObj = {
+            text,
+            newText
+          }
 
-      box.text = newText
-      box
-        .save()
-        .then(() => {
-          res.status(200).json({
+          Box
+            .create(orderObj)
+            .catch((err) => {
+              console.log(err)
+              const message = 'Something went wrong :('
+              return res.status(200).json({
+                success: false,
+                message: message
+              })
+            })
+          return res.status(200).json({
             success: true,
-            message: 'Box updated successfully.'
+            message: message
           })
-        })
+        }
+
+        box.text = newText
+        box
+          .save()
+          .then(() => {
+            res.status(200).json({
+              success: true,
+              message: 'Box updated successfully.'
+            })
+          })
       })
       .catch((err) => {
         console.log(err)

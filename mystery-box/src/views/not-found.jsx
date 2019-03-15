@@ -5,8 +5,8 @@ class NotFound extends Component {
 
     render() {
         return (
-            <div>
-<h1>404 Not found, buddy!</h1>
+            <div id="site_content">
+                <img alt="404 Not found, buddy!" src={process.env.PUBLIC_URL + '/404.jpg'} />
             </div>
         )
     }
