@@ -91,7 +91,7 @@ class Register extends Component {
       <div className="form-wrapper">
         {
           error.length
-            ? <div className="errors">Something went wrong: {error}</div>
+            ? <div className="errors"><p>Something went wrong: {error}</p></div>
             : null
         }
         <h1>Register</h1>
