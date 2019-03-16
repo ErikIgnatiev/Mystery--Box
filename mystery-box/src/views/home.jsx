@@ -20,7 +20,7 @@ class Home extends Component {
             <h1>Order your Mysterybox now!</h1>
             <p>The Mysterybox is our way of providing you with the products you need but don't know you want. Get a bunch of items that won't be known to you until you open the box - and that's the charm of it! No, we won't tell what we've prepared for you, but we can give you a hint - it will be worth it!</p>
             <Box {...box[0]} />
-            <p>We can rule your wholesale!</p>
+            <p>We can rule you wholesale!</p>
           </div>
         </div>
 

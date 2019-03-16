@@ -13,18 +13,6 @@ class PendingOrders extends Component {
     render() {
         const { orders } = this.state;
 
-        // if (isLoading) {
-        //     return <Loading />
-        // }
-
-        // if (!orders.length && !isLoading) {
-        //     return (
-        //         <div>
-        //             <h2>No books!</h2>
-        //         </div>
-        //     )
-        // }
-
         if (!orders.length) {
             return (
                 <div>
